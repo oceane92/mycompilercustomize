@@ -35,7 +35,6 @@ module.exports = ast => {
 
             case 'CurlybracketStartExpression':
                 curlybracket_index = curlybracket_index + 1
-                console.log("PARENTHESIS " + curlybracket_index)
                 break;
 
             case 'CurlybracketEndExpression':
@@ -44,8 +43,6 @@ module.exports = ast => {
         }
         rapport.push({ 'type' : current_expression.type,
             'note' : 5});
-
-
     }
 
     if (parenthesis_index != 0) {

@@ -1,8 +1,10 @@
 module.exports = tokens => {
     var AST = { body: [] };
-    var last_token = null;
+    var last_token = 0;
+
     while (tokens.length > 0) {
         var current_token = tokens.shift();
+        console.log(last_token.value + " | " + current_token.value)
 
         switch(current_token.type){
 
@@ -13,10 +15,7 @@ module.exports = tokens => {
                     identifier: last_token.value,
                     value: current_token.value
                 }
-                var next = tokens.shift();
-                current_token = next;
                 AST.body.push(expression);
-
                 break;
 
             case 'equal':
@@ -28,8 +27,8 @@ module.exports = tokens => {
                         identifier: last_token.value,
                         value: ''
                     }
-                    var next = tokens.shift();
-                    current_token= next;
+
+                    /*current_token= next;
                     switch(next.type){
                         case 'object-string':
                         case 'number':
@@ -37,100 +36,45 @@ module.exports = tokens => {
                             expression.value = next;
                             break;
                         default:
-                            throw 'You have to assign a known type to variable '+last_token.value;
-                    }
+                    }*/
                     AST.body.push(expression);
 
                 }
                 break;
 
-            case 'console-object':
-                var next = tokens.shift();
-                current_token= next;
-                if(next.type=="point"){
-                    var expression = {
-                        type: 'ConsoleUseMethodExpression',
-                        methode: '',
-                        arguments: [],
-                    }
-                    next = tokens.shift();
-                    current_token= next;
-                    if(next.type==="identifier"){
-                        expression.methode= next.value;
-                        next = tokens.shift();
-                        current_token= next;
-                        if(next.type==="parenthesis-start"){
-                            var isEnding= false;
-                            do{
-                                next= tokens.shift();
-                                current_token= next;
-                                switch(next.type){
-                                    case 'object-string':
-                                    case 'number':
-                                    case 'number-float':
-                                    case 'identifier':
-                                        expression.arguments.push(next);
-                                        break;
-                                    case 'parenthesis-end':
-                                        isEnding= true;
-                                        break
-                                    case 'virgule':
-                                        break;
-                                    default:
-                                        throw 'Error of using arguments';
-                                }
-                            }while(next.type!="parenthesis-end" && tokens.length > 0);
-                            if(!isEnding){
-                                throw 'You have to close parenthesis when you use method.';
-                            }else{
-                                AST.body.push(expression);
-                            }
-                        }else{
-                            throw 'You have to use parenthesis to use method.';
-                        }
-
-                    }else{
-                        throw 'You have to define a identifier for a variable.';
-                    }
-                }
-                break;
             case 'instruction-end':
+                break;
             case 'parenthesis-start':
                 var expression = {
                     type: 'ParenthesisStartExpression'
                 }
-                var next = tokens.shift();
-                current_token = next;
+                console.log(current_token.type)
                 AST.body.push(expression);
                 break;
             case 'parenthesis-end':
                 var expression = {
                     type: 'ParenthesisEndExpression'
                 }
-                var next = tokens.shift();
-                current_token = next;
+                console.log(current_token.type)
                 AST.body.push(expression);
                 break;
             case 'curlybracket-start':
-                console.log("CURLYBRACKET")
                 var expression = {
                     type: 'CurlybracketStartExpression'
                 }
-                var next = tokens.shift();
-                current_token = next;
                 AST.body.push(expression);
                 break;
             case 'curlybracket-end':
                 var expression = {
                     type: 'CurlybracketEndExpression'
                 }
-                var next = tokens.shift();
-                current_token = next;
                 AST.body.push(expression);
                 break;
 
         }
-        last_token= current_token;
+
+        last_token = current_token
+        //current_token = next;
     }
     return AST;
 }
