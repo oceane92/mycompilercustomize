@@ -17,30 +17,37 @@ module.exports = ast => {
                 types.push(current_expression.identifier)
                 break;
             case 'VariableAssignationExpression':
-                if (!variables.includes(current_expression.value)){
+                if (!variables.includes(current_expression.identifier) && current_expression.identifier != '=' && current_expression.identifier != '!'){
+                    console.log("---------------")
+                    console.log(variables)
+                    console.log(current_expression.identifier)
                     throw "Left statement must be a variable"
                 }
                 break;
 
             case 'ParenthesisStartExpression':
-                parenthesis_index++
+                parenthesis_index = parenthesis_index + 1
                 break;
 
             case 'ParenthesisEndExpression':
-                parenthesis_index--
+                parenthesis_index = parenthesis_index - 1
                 break;
 
             case 'CurlybracketStartExpression':
-                curlybracket_index++
+                curlybracket_index = curlybracket_index + 1
+                console.log("PARENTHESIS " + curlybracket_index)
                 break;
 
             case 'CurlybracketEndExpression':
-                curlybracket_index--
+                curlybracket_index = curlybracket_index - 1
                 break;
         }
         rapport.push({ 'type' : current_expression.type,
             'note' : 5});
+
+
     }
+
     if (parenthesis_index != 0) {
         throw "Missing parenthesis"
     }

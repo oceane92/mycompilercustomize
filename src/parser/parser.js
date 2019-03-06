@@ -20,12 +20,12 @@ module.exports = tokens => {
                 break;
 
             case 'equal':
-                if(last_token.type!="variable") {
+                if(last_token.type!="variable" && last_token.type!="equal" && last_token.type!="exclpoint") {
                     throw "Left statement must be a variable"
                 } else {
                     var expression = {
                         type: 'VariableAssignationExpression',
-                        identifier: current_token.value,
+                        identifier: last_token.value,
                         value: ''
                     }
                     var next = tokens.shift();
@@ -99,21 +99,34 @@ module.exports = tokens => {
                 var expression = {
                     type: 'ParenthesisStartExpression'
                 }
+                var next = tokens.shift();
+                current_token = next;
+                AST.body.push(expression);
                 break;
             case 'parenthesis-end':
                 var expression = {
                     type: 'ParenthesisEndExpression'
                 }
+                var next = tokens.shift();
+                current_token = next;
+                AST.body.push(expression);
                 break;
             case 'curlybracket-start':
+                console.log("CURLYBRACKET")
                 var expression = {
                     type: 'CurlybracketStartExpression'
                 }
+                var next = tokens.shift();
+                current_token = next;
+                AST.body.push(expression);
                 break;
             case 'curlybracket-end':
                 var expression = {
                     type: 'CurlybracketEndExpression'
                 }
+                var next = tokens.shift();
+                current_token = next;
+                AST.body.push(expression);
                 break;
 
         }
