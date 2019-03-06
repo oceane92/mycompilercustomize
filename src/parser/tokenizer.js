@@ -70,6 +70,14 @@ module.exports = input => {
                 addToken('equal', '=')
                 current++
                 break
+            case '<':
+                addToken('operator', '<')
+                current++
+                break
+            case '>':
+                addToken('operator', '>')
+                current++
+                break
             case '!':
                 addToken('exclpoint', '!')
                 current++

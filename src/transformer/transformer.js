@@ -17,11 +17,16 @@ module.exports = ast => {
                 types.push(current_expression.identifier)
                 break;
             case 'VariableAssignationExpression':
-                if (!variables.includes(current_expression.identifier) && current_expression.identifier != '=' && current_expression.identifier != '!'){
-                    console.log("---------------")
-                    console.log(variables)
-                    console.log(current_expression.identifier)
+                if (!variables.includes(current_expression.identifier) && current_expression.identifier != '=' && current_expression.identifier != '!'
+                    && current_expression.identifier != '<' && current_expression.identifier != '>'){
                     throw "Left statement must be a variable"
+                }
+                break;
+
+            case 'LineBreakException':
+                if (current_expression.identifier!=';' && current_expression.identifier!='}' && current_expression.identifier!=':'
+                    && current_expression.identifier!='\n' && current_expression.identifier!='{') {
+                    throw "Missing EOL before carriage return"
                 }
                 break;
 

@@ -4,7 +4,6 @@ module.exports = tokens => {
 
     while (tokens.length > 0) {
         var current_token = tokens.shift();
-        console.log(last_token.value + " | " + current_token.value)
 
         switch(current_token.type){
 
@@ -18,8 +17,19 @@ module.exports = tokens => {
                 AST.body.push(expression);
                 break;
 
+            case 'line-break':
+                var expression = {
+                    type: 'LineBreakException',
+                    identifier: last_token.value,
+                    value: current_token.value
+                }
+                AST.body.push(expression);
+                break;
+
             case 'equal':
-                if(last_token.type!="variable" && last_token.type!="equal" && last_token.type!="exclpoint") {
+                if(last_token.type!="identifier" && last_token.type!="equal" && last_token.type!="exclpoint" && last_token.type!="operator"
+                    && last_token.type!="variable" && last_token.type!="operator") {
+
                     throw "Left statement must be a variable"
                 } else {
                     var expression = {
@@ -28,15 +38,6 @@ module.exports = tokens => {
                         value: ''
                     }
 
-                    /*current_token= next;
-                    switch(next.type){
-                        case 'object-string':
-                        case 'number':
-                        case 'number-float':
-                            expression.value = next;
-                            break;
-                        default:
-                    }*/
                     AST.body.push(expression);
 
                 }
@@ -48,14 +49,14 @@ module.exports = tokens => {
                 var expression = {
                     type: 'ParenthesisStartExpression'
                 }
-                console.log(current_token.type)
+
                 AST.body.push(expression);
                 break;
             case 'parenthesis-end':
                 var expression = {
                     type: 'ParenthesisEndExpression'
                 }
-                console.log(current_token.type)
+
                 AST.body.push(expression);
                 break;
             case 'curlybracket-start':
