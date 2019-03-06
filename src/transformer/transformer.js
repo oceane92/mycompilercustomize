@@ -3,6 +3,8 @@ module.exports = ast => {
     var expressions = ast.body;
     var variables = []
     var types = []
+    var parenthesis_index = 0
+    var curlybracket_index = 0
     //add rapport note of expressions;
 
 
@@ -20,13 +22,31 @@ module.exports = ast => {
                 }
                 break;
 
-            case 'ConsoleUseMethodExpression':
-                //check if method exists
-                //check arguments
+            case 'ParenthesisStartExpression':
+                parenthesis_index++
+                break;
+
+            case 'ParenthesisEndExpression':
+                parenthesis_index--
+                break;
+
+            case 'CurlybracketStartExpression':
+                curlybracket_index++
+                break;
+
+            case 'CurlybracketEndExpression':
+                curlybracket_index--
                 break;
         }
         rapport.push({ 'type' : current_expression.type,
             'note' : 5});
     }
+    if (parenthesis_index != 0) {
+        throw "Missing parenthesis"
+    }
+    if (curlybracket_index != 0) {
+        throw "Missing curlybracket"
+    }
+
     return rapport;
 }

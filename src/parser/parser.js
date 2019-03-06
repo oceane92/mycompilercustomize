@@ -3,9 +3,6 @@ module.exports = tokens => {
     var last_token = null;
     while (tokens.length > 0) {
         var current_token = tokens.shift();
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        console.log(last_token)
-        console.log(current_token)
 
         switch(current_token.type){
 
@@ -98,7 +95,25 @@ module.exports = tokens => {
                 }
                 break;
             case 'instruction-end':
-            case 'line-break':
+            case 'parenthesis-start':
+                var expression = {
+                    type: 'ParenthesisStartExpression'
+                }
+                break;
+            case 'parenthesis-end':
+                var expression = {
+                    type: 'ParenthesisEndExpression'
+                }
+                break;
+            case 'curlybracket-start':
+                var expression = {
+                    type: 'CurlybracketStartExpression'
+                }
+                break;
+            case 'curlybracket-end':
+                var expression = {
+                    type: 'CurlybracketEndExpression'
+                }
                 break;
 
         }
