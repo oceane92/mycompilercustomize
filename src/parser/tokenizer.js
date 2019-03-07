@@ -1,6 +1,7 @@
 const Token = require('../grammar/token.js')
 const chalk = require('chalk')
 
+//Transformation de chaque mot-clé en token
 module.exports = input => {
     const tokens = []
     let current = 0

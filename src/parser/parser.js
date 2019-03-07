@@ -1,3 +1,4 @@
+//Lecture des tokens, retourne des erreurs en cas de dysfonctionnement
 module.exports = tokens => {
     var AST = { body: [] };
     var last_token = 0;

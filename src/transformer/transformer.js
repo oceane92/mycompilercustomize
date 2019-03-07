@@ -1,3 +1,4 @@
+//Etablissement d'un rapport sur le code si il est compilé
 module.exports = ast => {
     var rapport = [] ;
     var expressions = ast.body;
