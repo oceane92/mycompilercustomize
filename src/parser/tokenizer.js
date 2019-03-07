@@ -1,4 +1,3 @@
-const keywords = require('./keywords.js')
 const Token = require('../grammar/token.js')
 const chalk = require('chalk')
 
@@ -13,21 +12,6 @@ module.exports = input => {
 
     const addToken = (type, value) => {
         tokens.push(new Token(type, value, current))
-    }
-
-    const keywords_keys = Object.keys(keywords)
-    const checkKeywords = slice => {
-        for (let i = 0; i < keywords_keys.length; i++) {
-            const currentKeyword = keywords[keywords_keys[i]]
-
-            if (!isToken(currentKeyword.r, slice)) {
-                addToken(keywords_keys[i], currentKeyword.s)
-                current += currentKeyword.s.length
-                return true
-            }
-        }
-
-        return false
     }
 
     while (current < input.length) {
@@ -165,10 +149,7 @@ module.exports = input => {
                 current++
                 break
             default:
-                const isKeyWord = checkKeywords(slice)
-                if (isKeyWord) {
-                    // ...
-                } else if (char.match(/[aA-zZ]/)) {
+                if (char.match(/[aA-zZ]/)) {
                     // look for any identifier
                     sub_current = 0
                     sub_char = slice.charAt(sub_current)
