@@ -13,7 +13,6 @@ const [nodeLocation, karcLocation, ...options] = args;
 const entryPoint = options.length != 0
     ? options[0]
     : '../compil/src/main.java';
-
 if (fs.existsSync(entryPoint)) {
     try {
         var tokens = tokenizer(fs.readFileSync(entryPoint, 'utf8'));
@@ -22,9 +21,11 @@ if (fs.existsSync(entryPoint)) {
         console.log("\n--- AST -------------\n");
         var AST = parser(tokens);
         console.log(AST);
-        console.log("\n--- Transformation --\n");
+        console.log("\n--- Transformation ---");
         var rapport = transformer(AST);
-        console.log(rapport);
+        rapport.forEach(element => {
+            console.log(`${chalk.green(element.type)}`);
+        });
     } catch (e) {
         printError(e);
     }

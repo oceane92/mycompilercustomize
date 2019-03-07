@@ -12,6 +12,9 @@ module.exports = ast => {
 
     while (expressions.length > 0) {
         var current_expression = expressions.shift();
+        if (variables.includes(current_expression.value)) {
+            throw "Variable already declared"
+        }
         switch(current_expression.type){
             case 'VariableDeclarationExpression':
                 variables.push(current_expression.value)
